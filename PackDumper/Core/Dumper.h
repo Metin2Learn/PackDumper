@@ -254,7 +254,7 @@ bool CDumper::SetCfg ()
 
 	if ( !CfgFile.is_open () )
 	{
-		CDumper::Log ( XOR ( "[!] Failed to Open -> C:/PackDumperCfg.txt" ), ELOGTYPE::LOG_BOTH );
+		CDumper::Log ( XOR ( "[!] Failed to Open -> D:/PackDumperCfg.txt" ), ELOGTYPE::LOG_BOTH );
 		return false;
 	}
 
@@ -274,7 +274,7 @@ bool CDumper::SetCfg ()
 
 	if ( CfgFileLines.empty () )
 	{
-		CDumper::Log ( XOR ( "[!] Empty File -> C:/PackDumperCfg.txt" ), ELOGTYPE::LOG_BOTH );
+		CDumper::Log ( XOR ( "[!] Empty File -> D:/PackDumperCfg.txt" ), ELOGTYPE::LOG_BOTH );
 		return false;
 	}
 
@@ -404,14 +404,14 @@ std::vector <std::string> CDumper::GetPathList ()
 
 	if ( !PathListFile.is_open () )
 	{
-		CDumper::Log ( XOR ( "[!] Failed to Open -> C:/PackDumperPathList.txt" ), ELOGTYPE::LOG_BOTH );
+		CDumper::Log ( XOR ( "[!] Failed to Open -> D:/PackDumperPathList.txt" ), ELOGTYPE::LOG_BOTH );
 		return PathList;
 	}
 
 	PathList.reserve ( 80 * 10000 );
 	TempPathList.reserve ( 80 * 10000 );
 
-	CDumper::Log ( XOR ( "[+] Getting Lines and Removing Dupes From -> C:/PackDumperPathList.txt\n" ), ELOGTYPE::LOG_BOTH );
+	CDumper::Log ( XOR ( "[+] Getting Lines and Removing Dupes From -> D:/PackDumperPathList.txt\n" ), ELOGTYPE::LOG_BOTH );
 
 	std::string CurLine;
 
@@ -434,11 +434,14 @@ std::vector <std::string> CDumper::GetPathList ()
 		if ( IsValidPath ) TempPathList.push_back ( CurLine );
 	}
 
+
+	CDumper::Log(XOR("[+] TempPathList Length: ") + std::to_string(TempPathList.size()), ELOGTYPE::LOG_BOTH);
+
 	PathListFile.close ();
 
 	if ( TempPathList.empty () )
 	{
-		CDumper::Log ( XOR ( "[!] Empty File -> C:/PackDumperPathList.txt" ), ELOGTYPE::LOG_BOTH );
+		CDumper::Log ( XOR ( "[!] Empty File -> D:/PackDumperPathList.txt" ), ELOGTYPE::LOG_BOTH );
 		return PathList;
 	}
 
@@ -454,6 +457,8 @@ std::vector <std::string> CDumper::GetPathList ()
 
 	PathList.shrink_to_fit ();
 
+	CDumper::Log(XOR("[+] PathList Length: ") + std::to_string(PathList.size()), ELOGTYPE::LOG_BOTH);
+
 	return PathList;
 }
 
@@ -466,6 +471,8 @@ bool CDumper::DumpByPathList ()
 	if ( PathList.empty () ) return false;
 
 	// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
+	CDumper::Log(XOR("[+] in DumpByPathList ") , ELOGTYPE::LOG_BOTH);
+
 
 	reinterpret_cast< tMappedFileLoad >( gb::ADDR_MappedFileLoad )( &gb::v_MappedFileBuffer[0] );
 
@@ -474,12 +481,18 @@ bool CDumper::DumpByPathList ()
 		CDumper::Log ( XOR ( "[!] Empty -> v_MappedFileBuffer" ), ELOGTYPE::LOG_BOTH );
 		return false;
 	}
+	else {
+		CDumper::Log(XOR("[+] success v_MappedFileBuffer "), ELOGTYPE::LOG_BOTH);
+	}
 
 	// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
 
 	for ( auto& Path : PathList )
 	{
 		std::string FilePath = CDumper::GetFilePath ( Path ); // Get Fixed Path
+
+		CDumper::Log(XOR("[+] Get Fixed Path: ")+ FilePath + std::to_string(cfg::CEterPackManagerGet_CallType), ELOGTYPE::LOG_BOTH);
+
 		void* pData = nullptr;
 
 		switch ( cfg::CEterPackManagerGet_CallType )
@@ -513,6 +526,9 @@ bool CDumper::DumpByPathList ()
 		{
 			CDumper::Log ( XOR ( "[Fail] !bRet || !pData -> " ) + FilePath, ELOGTYPE::LOG_BOTH );
 			continue;
+		}
+		else {
+			CDumper::Log(XOR("[success] !bRet || !pData -> ") + FilePath, ELOGTYPE::LOG_BOTH);
 		}
 
 		// + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //

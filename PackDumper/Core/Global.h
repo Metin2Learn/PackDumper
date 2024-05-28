@@ -46,10 +46,10 @@ const std::string PACK_DUMPER_VERSION_MINOR = XOR ( "0" );
 const std::string PACK_DUMPER_VERSION_PATCH = XOR ( "0" );
 const std::string PACK_DUMPER_VERSION = PACK_DUMPER_VERSION_MAJOR + "." + PACK_DUMPER_VERSION_MINOR + "." + PACK_DUMPER_VERSION_PATCH;
 
-#define OUTPUT_FILE_DIR XOR ( "C:/PackDumper/" )
-#define LOG_FILE_DIR    XOR ( "C:/PackDumperLog.txt" )
-#define CFG_FILE_DIR    XOR ( "C:/PackDumperCfg.txt" )
-#define PATH_LIST_DIR   XOR ( "C:/PackDumperPathList.txt" )
+#define OUTPUT_FILE_DIR XOR ( "D:/PackDumper/" )
+#define LOG_FILE_DIR    XOR ( "D:/PackDumperLog.txt" )
+#define CFG_FILE_DIR    XOR ( "D:/PackDumperCfg.txt" )
+#define PATH_LIST_DIR   XOR ( "D:/PackDumperPathList.txt" )
 
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + //
